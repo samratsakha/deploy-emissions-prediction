@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="" />
+    <title>Emissions Prediction</title>
+
+    <style>
+        * {
+            margin: 0%;
+            padding: 0%;
+        }
+
+        body {
+            background: url("https://wallpaperboat.com/wp-content/uploads/2019/10/best-background-for-website-22.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            margin-bottom: 0;
+            color: white;
+        }
+
+        header {
+            color: rgb(255, 255, 255);
+            background-color: rgba(0, 0, 0, 0.4);
+            font-size: xx-large;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+            justify-items: center;
+            position: sticky;
+            top: 0;
+            height: 80px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-container {
+            margin-left: 8%;
+            margin-bottom: 5%;
+            width: 40%;
+        }
+
+        .right-container {
+            margin-left: 7%;
+            margin-right: 5%;
+            margin-top: 2%;
+            margin-bottom: 5%;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+        }
+
+        #output {
+            font-weight: bold;
+        }
+
+        .navbar{
+            background-image: linear-gradient(to right,black,rgb(255, 255, 255));
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 50px;
+            position: sticky;
+            top: 80px;
+        }
+
+        .navbar nav{
+            margin-left: 4%;
+        }
+
+        .navbar nav:hover{
+            cursor: pointer;
+        }
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
+
+
+        @media only screen and (max-width: 500px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .left-container {
+                width: 80%;
+            }
+
+            .right-container{
+                margin-top: 10%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="header">
+        <h3>CO and NOX Emissions Prediction</h3>
+    </header>
+
+    <div class="navbar">
+        <nav><a target="_blank" href="https://www.linkedin.com/in/samrat-sakha-2a62841a3/">LinkedIn</a></nav>
+        <nav><a target="_blank" href="https://github.com/samratsakha">Github</a></nav>
+        <nav><a target="_blank" href="https://samratsakha.github.io/testing.github.io/">WebPage</a></nav>
+        <nav><a target="_blank" href="mailto:samratsakha54@gmail.com">Mail</a></nav>
+    </div>
+
+    <div class="main-content">
+
+        <div class="left-container">
+            <h4>1. Ambient temperature (AT) in Celsius</h4>
+            <input id="at" type="number" placeholder="Range: –6.0 to 37.0"><br><br>
+
+            <h4>2. Ambient pressure (AP) in MBar</h4>
+            <input id="ap" type="number" placeholder="Range: 985.0 to 1037.0"><br><br>
+
+            <h4>3. Ambient humidity (AH) in %</h4>
+            <input id="ah" type="number" placeholder="Range: 24.0 to 100.0"><br><br>
+
+            <h4>4. Air filter difference pressure (AFDP) in MBar</h4>
+            <input id="afdp" type="number" placeholder="Range: 2.0 to 8.0"><br><br>
+
+            <h4>5. Gas turbine exhaust pressure (GTEP) in MBar</h4>
+            <input id="gtep" type="number" placeholder="Range 17.0 to 41.0"><br><br>
+
+            <h4>6. Turbine inlet temperature (TIT) in Celsius</h4>
+            <input id="tit" type="number" placeholder="Range: 1000.0 to 1100.0 "><br><br>
+
+            <h4>7. Turbine after temperature (TAT) in Celsius</h4>
+            <input id="tat" type="number" placeholder="Range: 511.0 to 551.0 "><br><br>
+
+            <h4>8. Compressor discharge pressure (CDP) in MBar</h4>
+            <input id="cdp" type="number" placeholder="Range: 9.0 to 15.0"><br><br>
+
+            <h3 id="output1" style="display: none;">Output here</h3><br>
+            <button id="btn1" onclick="func1()">Predict Emissions</button>
+        </div>
+
+        <div class="right-container">
+            <h4>Predict with CO and NOX levels</h4><br><br>
+
+            <h4>1. Carbon monoxide (CO) in mg/m3</h4>
+            <input id="co" type="number" placeholder="Range: 0.0 to 44.0"><br><br>
+
+            <h4>2. Nitrogen oxides (NOx) in mg/m3</h4>
+            <input id="nox" type="number" placeholder="Range: 25.0 to 120.0"><br><br>
+
+            <h3 id="output2" style="display: none;">Output here</h3><br>
+            <button id="btn2" onclick="func2()">Predict Emissions</button>
+        </div>
+
+    </div>
+
+
+
+    <div id="modal">
+        <!-- Place at bottom of page -->
+    </div>
+
+</body>
+<script type="text/javascript">
+
+    var array1 = [0, 0, 0, 0, 0, 0, 0, 0];
+    var array2 = [0, 0];
+
+    function func1() {
+
+        var at = document.getElementById("at").value;
+        var ap = document.getElementById("ap").value;
+        var ah = document.getElementById("ah").value;
+        var afdp = document.getElementById("afdp").value;
+        var gtep = document.getElementById("gtep").value;
+        var tit = document.getElementById("tit").value;
+        var tat = document.getElementById("tat").value;
+        var cdp = document.getElementById("cdp").value;
+
+        var temp_arr1 = ["at", "ap", "ah", "afdp", "gtep", "tit", "tat", "cdp"];
+        var temp_arr2 = [at, ap, ah, afdp, gtep, tit, tat, cdp];
+
+        for (var i = 0; i < temp_arr2.length; i++) {
+            if (temp_arr2[i].trim() == "") {
+                alert("Enter the value of " + temp_arr1[i].toUpperCase());
+                document.getElementById(temp_arr1[i]).style.border = "solid 3px red";
+                return;
+            }
+            else {
+                document.getElementById(temp_arr1[i]).style.border = "solid 1px black";
+            }
+        }
+
+
+
+        array1 = [at, ap, ah, afdp, gtep, tit, tat, cdp];
+
+        for (var i = 0; i < array1.length; i++) {
+            array1[i] = Number(array1[i]);
+            if (isNaN(array1[i])) {
+                alert("Please enter number values in the inputs");
+                return;
+            }
+        }
+
+        var lower_limit = [-6.0, 985.0, 24.0, 2.0, 17.0, 1000.0, 511.0, 9.0];
+        var upper_limit = [37.0, 1037.0, 100.0, 8.0, 41.0, 1100.0, 551.0, 15.0];
+
+        for (var i = 0; i < array1.length; i++) {
+            if (array1[i] > upper_limit[i] || array1[i] < lower_limit[i]) {
+                alert("Input value of " + temp_arr1[i].toUpperCase() + " should be between " + lower_limit[i] + " and " + upper_limit[i]);
+                document.getElementById(temp_arr1[i]).style.border = "solid 3px red";
+                return;
+            }
+            else {
+                document.getElementById(temp_arr1[i]).style.border = "solid 1px black";
+            }
+        }
+
+        document.getElementById("modal").style.display = "block";
+
+        var entry = {
+            val_array: array1
+        };
+
+        fetch('/to_model', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(entry),
+            cache: 'no-cache',
+            headers: new Headers({
+                'content-type': 'application/json'
+            })
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    document.getElementById("modal").style.display = "none";
+                    document.getElementById("output1").innerHTML = "Error : Model did not Respond";
+                    document.getElementById("output1").style.display = "block";
+                    console.log('Response status was not 200');
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    document.getElementById("modal").style.display = "none";
+                    var display_out = JSON.stringify(data);
+                    var outs = JSON.parse(display_out);
+
+                    document.getElementById("output1").innerHTML = outs.output;
+                    document.getElementById("output1").style.display = "block";
+
+                })
+            })
+
+
+
+
+    }
+
+
+
+    function func2() {
+
+        var co = document.getElementById("co").value;
+        var nox = document.getElementById("nox").value;
+
+        var temp_arr1_2 = ["co", "nox"];
+        var temp_arr2_2 = [co, nox];
+
+        for (var i = 0; i < temp_arr2_2.length; i++) {
+            if (temp_arr2_2[i].trim() == "") {
+                alert("Enter the value of " + temp_arr1_2[i].toUpperCase());
+                document.getElementById(temp_arr1_2[i]).style.border = "solid 3px red";
+                return;
+            }
+            else {
+                document.getElementById(temp_arr1_2[i]).style.border = "solid 1px black";
+            }
+        }
+
+
+
+        array2 = [co, nox];
+
+        for (var i = 0; i < array2.length; i++) {
+            array2[i] = Number(array2[i]);
+            if (isNaN(array2[i])) {
+                alert("Please enter number values in the inputs");
+                return;
+            }
+        }
+
+        var lower_limit_2 = [0.0, 25.0];
+        var upper_limit_2 = [44.0, 120.0];
+
+        for (var i = 0; i < array2.length; i++) {
+            if (array2[i] > upper_limit_2[i] || array2[i] < lower_limit_2[i]) {
+                alert("Input value of " + temp_arr1_2[i].toUpperCase() + " should be between " + lower_limit_2[i] + " and " + upper_limit_2[i]);
+                document.getElementById(temp_arr1_2[i]).style.border = "solid 3px red";
+                return;
+            }
+            else {
+                document.getElementById(temp_arr1_2[i]).style.border = "solid 1px black";
+            }
+        }
+
+        document.getElementById("modal").style.display = "block";
+
+        var entry = {
+            val_array2: array2
+        };
+
+        fetch('/to_cluster', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(entry),
+            cache: 'no-cache',
+            headers: new Headers({
+                'content-type': 'application/json'
+            })
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    document.getElementById("modal").style.display = "none";
+                    document.getElementById("output2").innerHTML = "Error : Model did not Respond";
+                    document.getElementById("output2").style.display = "block";
+                    console.log('Response status was not 200');
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    document.getElementById("modal").style.display = "none";
+                    var display_out = JSON.stringify(data);
+                    var outs = JSON.parse(display_out);
+                   
+                    document.getElementById("output2").innerHTML = outs.output;
+                    document.getElementById("output2").style.display = "block";
+
+                })
+            })
+
+    }
+
+</script>
+
+</html>
